@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: db_container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+
+  wordpress:
+    image: wordpress:latest
+    container_name: wordpress_container
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: '${WORDPRESS_DB_HOST}'
+      WORDPRESS_DB_USER: '${WORDPRESS_DB_USER}'
+      WORDPRESS_DB_PASSWORD: '${WORDPRESS_DB_PASSWORD}'
+    depends_on:
+      - mysql
+
+volumes:
+  db_store:
