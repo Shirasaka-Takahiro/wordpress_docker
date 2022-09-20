@@ -26,5 +26,18 @@ services:
     depends_on:
       - db
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: "pma_container"
+    ports:
+      - "8081:80"
+    environment:
+      PMA_ARBITRARY: "{PMA_ARBITRARY}"
+      PMA_HOSTS: "${PMA_HOSTS}"
+      PMA_USER: "${PMA_USER}"
+      PMA_PASSWORD: "${PMA_PASSWORD}"
+    links:
+      - db:mysql
+
 volumes:
   db_store:
